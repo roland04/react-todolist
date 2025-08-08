@@ -14,7 +14,7 @@ export default function TodoList() {
         ]
     );
     const [input, setInput] = useState("");
-    
+
     useEffect(() => {
         localStorage.setItem("todos", JSON.stringify(todos));
     }, [todos]);
@@ -33,7 +33,11 @@ export default function TodoList() {
     function handleToggle(id) {
         setTodos(todos =>
             todos.map(todo =>
-                todo.id === id ? { ...todo, completed: !todo.completed } : todo
+                todo.id === id ? {
+                    ...todo,
+                    completed: !todo.completed,
+                    completedAt: !todo.completed ? new Date().toISOString() : null
+                } : todo
             )
         );
     }
@@ -55,10 +59,9 @@ export default function TodoList() {
                     <button type="submit" className="btn btn-primary">
                         <i class="bi bi-plus-lg"></i></button>
                 </div>
-
             </form>
-            <ul className="list-group">
-                {todos.map(todo => (
+            <ul className="list-group list-group-flush mb-5">
+                {todos.filter(todo => !todo.completed).map(todo => (
                     <TodoItem
                         key={todo.id}
                         todo={todo}
@@ -66,6 +69,18 @@ export default function TodoList() {
                         onDelete={handleDelete}
                     />
                 ))}
+                {todos.filter(todo => todo.completed)
+                    .slice()
+                    .sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt))
+                    .map(todo => (
+                        <TodoItem
+                        key={todo.id}
+                        todo={todo}
+                        onToggle={handleToggle}
+                        onDelete={handleDelete}
+                        />
+                    ))
+                    }
             </ul>
         </section>
     );

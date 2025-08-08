@@ -9,5 +9,6 @@ export function createTodoItem({
         text,
         completed,
         createdAt,
+        completedAt: completed ? new Date().toISOString() : null,
     };
 }
