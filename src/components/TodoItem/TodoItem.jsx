@@ -15,7 +15,9 @@ export default function TodoItem({ todo, onToggle, onDelete }) {
                     {todo.text}
                 </label>
             </div>
-            <button className="btn btn-sm btn-danger ms-auto" onClick={() => onDelete(todo.id)}><i class="bi bi-trash3"></i></button>
+            <button className="btn btn-sm btn-light ms-auto" onClick={() => onDelete(todo.id)}>
+                <i class="bi bi-trash3 text-danger"></i>
+            </button>
         </li>
     );
 }
