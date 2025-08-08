@@ -1,22 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoItem from "../TodoItem/TodoItem";
 import { createTodoItem } from "../../models/todoItem";
 
 
 export default function TodoList() {
-    const [todos, setTodos] = useState([
-        createTodoItem({ id: 1, text: "Forge a new sword" }),
-        createTodoItem({ id: 2, text: "Train with the archers" }),
-        createTodoItem({ id: 3, text: "Gather herbs for potion" }),
-        createTodoItem({ id: 4, text: "Escort the merchant caravan" }),
-        createTodoItem({ id: 5, text: "Attend the king's council" }),
-        createTodoItem({ id: 6, text: "Repair the castle walls" }),
-        createTodoItem({ id: 7, text: "Scout the forest for bandits" }),
-        createTodoItem({ id: 8, text: "Prepare feast for nobility" }),
-        createTodoItem({ id: 9, text: "Study ancient runes" }),
-        createTodoItem({ id: 10, text: "Practice horseback riding" }),
-    ]);
+    const [todos, setTodos] = useState(() =>
+        JSON.parse(localStorage.getItem("todos")) || [
+            createTodoItem({ id: 1, text: "Forge a new sword" }),
+            createTodoItem({ id: 3, text: "Gather herbs for potion" }),
+            createTodoItem({ id: 4, text: "Escort the merchant caravan" }),
+            createTodoItem({ id: 7, text: "Scout the forest for bandits" }),
+            createTodoItem({ id: 9, text: "Study ancient runes" }),
+        ]
+    );
     const [input, setInput] = useState("");
+    
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos]);
 
     function handleAddTodo(e) {
         e.preventDefault();
