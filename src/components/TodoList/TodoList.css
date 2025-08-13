@@ -1,0 +1,15 @@
+[data-bs-toggle="collapse"][aria-expanded="true"] .bi-chevron-up {
+    display: none;
+}
+
+[data-bs-toggle="collapse"][aria-expanded="true"] .bi-chevron-down {
+    display: inline;
+}
+
+[data-bs-toggle="collapse"][aria-expanded="false"] .bi-chevron-up {
+    display: inline;
+}
+
+[data-bs-toggle="collapse"][aria-expanded="false"] .bi-chevron-down {
+    display: none;
+}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./TodoList.css";
 import TodoItem from "../TodoItem/TodoItem";
 import { createTodoItem } from "../../models/todoItem";
 
@@ -47,7 +48,7 @@ export default function TodoList() {
     }
 
     return (
-        <section>
+        <section className="d-flex flex-column h-100">
             <form onSubmit={handleAddTodo}>
                 <div className="input-group mb-3">
                     <input
@@ -60,7 +61,7 @@ export default function TodoList() {
                         <i class="bi bi-plus-lg"></i></button>
                 </div>
             </form>
-            <ul className="list-group list-group-flush mb-5">
+            <ul className="list-group list-group-flush">
                 {todos.filter(todo => !todo.completed).map(todo => (
                     <TodoItem
                         key={todo.id}
@@ -69,19 +70,39 @@ export default function TodoList() {
                         onDelete={handleDelete}
                     />
                 ))}
-                {todos.filter(todo => todo.completed)
-                    .slice()
-                    .sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt))
-                    .map(todo => (
-                        <TodoItem
-                        key={todo.id}
-                        todo={todo}
-                        onToggle={handleToggle}
-                        onDelete={handleDelete}
-                        />
-                    ))
-                    }
             </ul>
+            {todos.filter(todo => todo.completed).length !== 0 && (
+                <div className="mt-auto border-top">
+                    <button className="btn btn-link d-inline-flex w-100 text-start text-body text-decoration-none m-1"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#completedTodos"
+                            aria-expanded="false"
+                            aria-controls="completedTodos"
+                        >
+                        <span className="me-2">
+                            <i className="bi bi-chevron-down ms-2"></i>
+                            <i className="bi bi-chevron-up ms-2"></i>
+                        </span>
+                        Completed ({todos.filter(todo => todo.completed).length})
+                    </button>
+                    <ul id="completedTodos" className="list-group list-group-flush">
+                        {todos.filter(todo => todo.completed)
+                            .slice()
+                            .sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt))
+                            .map(todo => (
+                                <TodoItem
+                                key={todo.id}
+                                todo={todo}
+                                onToggle={handleToggle}
+                                onDelete={handleDelete}
+                                />
+                            ))
+                        }
+                    </ul>
+                </div>
+
+            )}
         </section>
     );
 }
